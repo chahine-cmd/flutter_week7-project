@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1058445574987",
+    "project_id": "smart-pizza-app",
+    "storage_bucket": "smart-pizza-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058445574987:android:60a8c195b12d8dc358dece",
+        "android_client_info": {
+          "package_name": "com.example.flutter_week7_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwa-dEUBIMnN0petni0INeLh8YBRx1hLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
