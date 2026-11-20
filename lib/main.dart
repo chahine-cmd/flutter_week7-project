@@ -9,6 +9,7 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'theme.dart';
 
 //-----------------------------------
 // Application Entry Point
@@ -51,8 +52,9 @@ class MainApp extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: themeData,
       home: MenuScreen(),
     );
   }
@@ -81,6 +83,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
     final cartProvider = Provider.of<CartProvider>(context);
 
+/*
     final ButtonStyle pizzaButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
@@ -90,26 +93,59 @@ class _MenuScreenState extends State<MenuScreen> {
         fontWeight: FontWeight.bold,
       ),
     );
-
+*/
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Smart Pizza Shop 🍕'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Choose Your Pizza',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+        title: const Text('🍕 Smart Pizza Shop 🍕'),
+        actions: [
+
+          Row(children: [
+            IconButton(
+              icon: const Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(
+                    orders: cartProvider.orders,
+                    clearCart: () {
+                      cartProvider.clearCart();
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+
+            const SizedBox(width: 5),
+
+            Text('${cartProvider.orders.length}',
             ),
 
+            const SizedBox(width: 15),
+          ],
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+
+        
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             Text('Choose Your Pizza',
+              style: Theme.of(context)
+              .textTheme
+              .headlineMedium,
+              ),
+            
             const SizedBox(height: 20),
 
-            Row(
+          /*  Row(
               mainAxisAlignment: MainAxisAlignment.center,
                 
               children: [
@@ -131,10 +167,12 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
               ],
             ),
+            
 
                   // changed currentOrders.length to cartProvider.orders.length
 
-        const SizedBox(height: 20),
+        const SizedBox(height: 20), 
+        */
 
             /*
             Text(
@@ -357,7 +395,7 @@ const SizedBox(height: 20),
             // ------------------------------------------------------------------
             
              ElevatedButton(
-              style: pizzaButtonStyle,
+           /* style: pizzaButtonStyle,*/
               onPressed: () async {
                 final order = await Navigator.push(
                   context,
@@ -385,7 +423,7 @@ const SizedBox(height: 20),
             // ------------------------------------------------------------------
 
             ElevatedButton(
-              style: pizzaButtonStyle,
+          /*  style: pizzaButtonStyle,*/
               onPressed: () async {
                 final order = await Navigator.push(
                   context,
@@ -413,7 +451,7 @@ const SizedBox(height: 20),
             // ------------------------------------------------------------------
 
             ElevatedButton(
-              style: pizzaButtonStyle,
+          /*  style: pizzaButtonStyle,*/
               onPressed: () async {
                 final order = await Navigator.push(
                   context,
@@ -436,7 +474,7 @@ const SizedBox(height: 20),
 
             const SizedBox(height: 20),
 
-
+/*
             //--------------------------------------------------------
             // Navigation to Cart Screen
             //---------------------------------------------------------
@@ -459,26 +497,12 @@ const SizedBox(height: 20),
                 ),
               );
             },
-
-              /*
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartScreen(
-                      orders: currentOrders,
-                      clearCart: () {
-                        setState(() {
-                          currentOrders.clear();
-                        });
-                      },
-                    ),
-                  ),
-                );
-              }, */
-              child: const Text('View Cart'),
-            ),
-          ],
+              
+                child: const Text('View Cart'),
+              ),
+              */
+            ],
+          ),
         ),
       ),
     );
@@ -534,18 +558,47 @@ class CustomizeScreen extends StatefulWidget {
       appBar: AppBar(
         title: const Text('Customize Pizza'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 26,
+                    color: Colors.black,
+                  ),
+                  children: [
+                    const TextSpan(
+                      text: 'Selected Pizza: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text:widget.pizzaName,
+                      style: const TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  
+                  ],
+                ),
+              ),
+
+          
+/*            Text(
               widget.pizzaName,
               style: const TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
+*/
 
             const SizedBox(height: 20),
 
@@ -665,6 +718,7 @@ class CustomizeScreen extends StatefulWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
                 ElevatedButton(
                   onPressed: () {
                     String order =
@@ -696,9 +750,10 @@ class CustomizeScreen extends StatefulWidget {
           ],
         ),
       ),
-    );
+    ),
+   );
   }
-}
+ }
 
 // -------------------------------------------------------------------------
 // Screen 3 - Cart
@@ -724,30 +779,21 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Cart'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Text(
                 'Order Summary',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                style: Theme.of(context).textTheme.headlineMedium,               
                 ),
-              ),
-
+            
               const SizedBox(height: 20),
 
-              /*
-              Text(
-                order.isEmpty
-                    ? 'Cart is Empty'
-                    : order,
-                textAlign: TextAlign.center,
-              ),
-              */
+             
               Expanded(
                 child: cartProvider.orders.isEmpty
                   ? const Text('Cart is Empty')
@@ -787,10 +833,10 @@ class CartScreen extends StatelessWidget {
               
               const SizedBox(height: 30),
 
-              //------------------------------
-              // Firestore Order Submission
-              // Save Orders to cloud database
-              //------------------------------
+//------------------------------
+// Firestore Order Submission
+// Save Orders to cloud database
+//------------------------------
 
               ElevatedButton(
                 onPressed: () async {
@@ -814,30 +860,50 @@ class CartScreen extends StatelessWidget {
 
                 child: const Text('Place Order'),
               ),
-                
-              ElevatedButton(
-                onPressed: () {
 
-                  Provider.of<CartProvider>(
-                    context,
-                    listen: false,
-                  ).clearCart();
+              const SizedBox(height: 50),
 
-                },
-                child: const Text('Clear Cart'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+//----------------------------------------------------------------
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(120, 40),
+                    ),
+                    
+                    onPressed: () {
+
+                      Provider.of<CartProvider>(
+                        context,
+                        listen: false,
+                      ).clearCart();
+
+                    },
+                    child: const Text('Clear Cart'),
+                  ),
+
+                  //--------------------------------------------------------
+                  const SizedBox(width: 10),
+
+                  ElevatedButton(
+                    style:ElevatedButton.styleFrom(
+                      minimumSize: const Size(100, 40),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Back'),
+
+                    //---------------------------------------------------------------
+                  ),
+                ],
               ),
-
-             const SizedBox(height: 10),
-
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Back'),
-              ),
-            ],
-          ),
+              ],             
+            ),
         ),
+      ),
       ),
     );
   }
@@ -855,8 +921,10 @@ class ConfirmationScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Order Confirmation'),
       ),
-      body: Center(
-        child: Column(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+
           mainAxisAlignment: MainAxisAlignment.center,
           
           children: [
@@ -892,11 +960,12 @@ class ConfirmationScreen extends StatelessWidget {
               },
               child: const Text('Back to Home'),
             ),
-
+            
           
           ],
         ),
       ),
+    ),
     );
   }
 }
