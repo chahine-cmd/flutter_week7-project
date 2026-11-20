@@ -526,18 +526,32 @@ class CustomizeScreen extends StatefulWidget {
 }
 
  class _CustomizeScreenState extends State<CustomizeScreen> {
-  String selectedSize = 'Medium';
+  String selectedSize = 'Small';
   String selectedCrust = 'Thin Crust';
-
+  String selectedDrink = 'No Drink';
+  List<String> selectedSides = [];
   List<String> selectedToppings = [];
 
-  Widget buildToppingChip(String topping) {
+  /*Widget buildToppingChip(String topping) {
     return SizedBox(
       width: 120,
       child: ChoiceChip(
         label: Center(
           child: Text(topping),
-        ),
+        ), 
+
+       Widget buildToppingChip(String topping) {
+        return Center(
+          child: SizedBox(
+            width: 120,
+            child: ChoiceChip(
+              label: Center(
+                child: Text(
+                  topping,
+                  textAlign: TextAlign.center,
+                ),
+              ), 
+        
         selected: selectedToppings.contains(topping),
         onSelected: (selected) {
           setState(() {
@@ -548,9 +562,32 @@ class CustomizeScreen extends StatefulWidget {
             }
           });
         },
+       ),
       ),
     );
-  }
+  } */
+
+        Widget buildToppingChip(String topping) {
+          return ChoiceChip(
+            label: SizedBox(
+              width: double.infinity,
+              child: Text(
+                topping,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            selected: selectedToppings.contains(topping),
+            onSelected: (selected) {
+              setState(() {
+                if (selected) {
+                  selectedToppings.add(topping);
+                } else {
+                  selectedToppings.remove(topping);
+                }
+              });
+            },
+          );
+        }
 
   @override
   Widget build(BuildContext context) {
@@ -559,11 +596,12 @@ class CustomizeScreen extends StatefulWidget {
         title: const Text('Customize Pizza'),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
               RichText(
                 text: TextSpan(
@@ -650,6 +688,8 @@ class CustomizeScreen extends StatefulWidget {
 
             const SizedBox(height: 10),
 
+//------------------ Choose Crust ------------------
+
              const Text(
               'Choose Crust',
               style: TextStyle(
@@ -658,6 +698,46 @@ class CustomizeScreen extends StatefulWidget {
               ),
             ),
 
+            Row(
+              children: [
+                
+                Radio<String>(
+                  value: 'Thin Crust',
+                  groupValue: selectedCrust,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCrust = value!;
+                    });
+                  },
+                ),
+                const Text('Thin'),
+
+                Radio<String>(
+                  value: 'Thick Crust',
+                  groupValue: selectedCrust,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCrust = value!;
+                    });
+                  },
+                ),
+                const Text('Thick'),
+
+                Radio<String>(
+                  value: 'Cheese Stuffed Crust',
+                  groupValue: selectedCrust,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCrust = value!;
+                    });
+                  },
+                ),
+                const Text('Stuffed'),
+
+              ],
+            ),
+
+            /*
             RadioListTile<String>(
               title: const Text('Thin Crust'),
               value: 'Thin Crust',
@@ -668,6 +748,7 @@ class CustomizeScreen extends StatefulWidget {
                 });
               },
             ),
+            
 
             RadioListTile<String>(
               title: const Text('Thick Crust'),
@@ -679,6 +760,7 @@ class CustomizeScreen extends StatefulWidget {
                 });
               },
             ),
+            
 
             RadioListTile<String>(
               title: const Text('Cheese Stuffed Crust'),
@@ -691,6 +773,10 @@ class CustomizeScreen extends StatefulWidget {
               },
             ),
 
+            */
+
+//------------------ Choose Toppings -----------
+
             const Text(
               'Choose Toppings',
               style: TextStyle(
@@ -700,8 +786,8 @@ class CustomizeScreen extends StatefulWidget {
             ),
 
             const SizedBox(height: 10),
-
-            Wrap(
+            
+            /*Wrap(
               spacing: 10,
               runSpacing: 10,
               children: [
@@ -710,22 +796,256 @@ class CustomizeScreen extends StatefulWidget {
                 buildToppingChip('Mushrooms'),
                 buildToppingChip('Peppers'),
                 buildToppingChip('Pineapple'),
+                buildToppingChip('Onions'),
+                buildToppingChip('Jalapenos'),
+                buildToppingChip('Chicken'),
+                buildToppingChip('Beef'),
               ],
+            ), */
+
+            SizedBox(
+              height: 180,
+              child: GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 2.5,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisExtent: 50,
+                children: [
+                  buildToppingChip('Extra Cheese'),
+                  buildToppingChip('Olive'),
+                  buildToppingChip('Mushrooms'),
+                  buildToppingChip('Peppers'),
+                  buildToppingChip('Pineapple'),
+                  buildToppingChip('Onions'),
+                  buildToppingChip('Jalapenos'),
+                  buildToppingChip('Chicken'),
+                  buildToppingChip('Beef'),
+                ],
+              ),
             ),
 
-            const Spacer(),
+            const SizedBox(height: 20),
+
+//----------------------- Drinks ----------------------
+
+            const Text(
+              'Choose Drink',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+              RadioListTile<String>(
+              title: const Text('No Drink'),
+              value: 'No Drink',
+              groupValue: selectedDrink,
+              onChanged: (value) {
+                setState(() {
+                selectedDrink = value!;
+                });
+              },
+            ),
+
+            RadioListTile<String>(
+              title: const Text('Coca-Cola'),
+              value: 'Coca-Cola',
+              groupValue: selectedDrink,
+              onChanged: (value) {
+                setState(() {
+                selectedDrink = value!;
+                });
+              },
+            ),
+            
+            RadioListTile<String>(
+              title: const Text('Pepsi'),
+              value: 'Pepsi',
+              groupValue: selectedDrink,
+              onChanged: (value) {
+                setState(() {
+                selectedDrink = value!;
+                });
+              },
+            ),
+
+            RadioListTile<String>(
+              title: const Text('Sprite'),
+              value: 'Sprite',
+              groupValue: selectedDrink,
+              onChanged: (value) {
+                setState(() {
+                  selectedDrink = value!;
+                });
+              },
+            ),
+
+            RadioListTile<String>(
+              title: const Text('Water'),
+              value: 'Water',
+              groupValue: selectedDrink,
+              onChanged: (value) {
+                setState(() {
+                  selectedDrink = value!;
+                });
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+//------------------------ End of Drinks -----------------------
+
+//---------------------- Sides ----------------
+
+
+            const Text(
+              'Choose Sides',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: const Text('Garlic Bread'),
+              value: selectedSides.contains('Garlic Bread'),
+              onChanged: (selected) {
+                setState(() {
+                  if (selected!) {
+                    selectedSides.add('Garlic Bread');
+                  } else {
+                    selectedSides.remove('Garlic Bread');
+                  }
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: const Text('French Fries'),
+              value: selectedSides.contains('French Fries'),
+              onChanged: (selected) {
+                setState(() {
+                  if (selected!) {
+                    selectedSides.add('French Fries');
+                  } else {
+                    selectedSides.remove('French Fries');
+                  }
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: const Text('Chicken Wings'),
+              value: selectedSides.contains('Chicken Wings'),
+              onChanged: (selected) {
+                setState(() {
+                  if (selected!) {
+                    selectedSides.add('Chicken Wings');
+                  } else {
+                    selectedSides.remove('Chicken Wings');
+                  }
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: const Text('Mozzarella Sticks'),
+              value: selectedSides.contains('Mozzarella Sticks'),
+              onChanged: (selected) {
+                setState(() {
+                  if (selected!) {
+                    selectedSides.add('Mozzarella Sticks');
+                  } else {
+                    selectedSides.remove('Mozzarella Sticks');
+                  }
+                });
+              },
+            ),
+/*
+            const Text(
+              'Choose Side',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            RadioListTile<String>(
+              title: const Text('Garlic Bread'),
+              value: 'Garlic Bread',
+              groupValue: selectedSide,
+              onChanged: (value) {
+                setState(() {
+                  selectedSide = value!;
+                });
+              },
+            ),
+
+            RadioListTile<String>(
+              title: const Text('French Fries'),
+              value: 'French Fries',
+              groupValue: selectedSide,
+              onChanged: (value) {
+                setState(() {
+                  selectedSide = value!;
+                });
+              },
+            ),
+
+            RadioListTile<String>(
+              title: const Text('Chicken Wings'),
+              value: 'Chicken Wings',
+              groupValue: selectedSide,
+              onChanged: (value) {
+                setState(() {
+                  selectedSide = value!;
+                });
+              },
+            ),
+            
+            RadioListTile<String>(
+              title: const Text('Mozzarella Sticks'),
+              value: 'Mozzarella Sticks',
+              groupValue: selectedSide,
+              onChanged: (value) {
+                setState(() {
+                  selectedSide = value!;
+                });
+              },
+            ),
+
+            */
+
+// ----------------- End of Sides ------------------
+
+            const SizedBox(height: 20),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(140, 40),
+                  ),
                   onPressed: () {
                     String order =
                         '${widget.pizzaName}\n'
                         'Size: $selectedSize\n'
                         'Crust: $selectedCrust\n'
-                        'Toppings: ${selectedToppings.join(", ")}';
+                        'Toppings: ${selectedToppings.join(", ")}\n'
+                        'Drink: $selectedDrink\n'
+                        'Sides: ${selectedSides.join(",")}';
 
                     Navigator.pop(
                       context,
@@ -738,6 +1058,9 @@ class CustomizeScreen extends StatefulWidget {
                 const SizedBox(width: 15),
 
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(100, 40),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -751,6 +1074,7 @@ class CustomizeScreen extends StatefulWidget {
         ),
       ),
     ),
+      ),
    );
   }
  }
