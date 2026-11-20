@@ -589,6 +589,8 @@ class CustomizeScreen extends StatefulWidget {
           );
         }
 
+        
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -640,6 +642,38 @@ class CustomizeScreen extends StatefulWidget {
 
             const SizedBox(height: 20),
 
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.straighten,
+                    color: Colors.orange,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Choose Size',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+            /*
             const Text(
               'Choose Size',
               style: TextStyle(
@@ -647,6 +681,7 @@ class CustomizeScreen extends StatefulWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            */
 
             Row(
               children: [
@@ -686,17 +721,46 @@ class CustomizeScreen extends StatefulWidget {
               ],
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
 //------------------ Choose Crust ------------------
+               Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.bakery_dining,
+                      color: Colors.orange,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Choose Crust',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-             const Text(
+             /*const Text(
               'Choose Crust',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ), */
 
             Row(
               children: [
@@ -775,15 +839,48 @@ class CustomizeScreen extends StatefulWidget {
 
             */
 
+            const SizedBox(height: 20),
 //------------------ Choose Toppings -----------
 
-            const Text(
+            Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.restaurant,
+                      color: Colors.orange,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Choose Toppings',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            
+            
+            
+           /* const Text(
               'Choose Toppings',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ), */
 
             const SizedBox(height: 10),
             
@@ -830,13 +927,46 @@ class CustomizeScreen extends StatefulWidget {
 
 //----------------------- Drinks ----------------------
 
-            const Text(
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.local_drink,
+                      color: Colors.orange,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Choose Drink',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        
+            
+            
+            
+           /* const Text(
               'Choose Drink',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ), */
 
               RadioListTile<String>(
               title: const Text('No Drink'),
@@ -850,8 +980,8 @@ class CustomizeScreen extends StatefulWidget {
             ),
 
             RadioListTile<String>(
-              title: const Text('Coca-Cola'),
-              value: 'Coca-Cola',
+              title: const Text('Pepsi'),
+              value: 'Pepsi',
               groupValue: selectedDrink,
               onChanged: (value) {
                 setState(() {
@@ -861,8 +991,8 @@ class CustomizeScreen extends StatefulWidget {
             ),
             
             RadioListTile<String>(
-              title: const Text('Pepsi'),
-              value: 'Pepsi',
+              title: const Text('Fanta'),
+              value: 'Fanta',
               groupValue: selectedDrink,
               onChanged: (value) {
                 setState(() {
@@ -899,18 +1029,48 @@ class CustomizeScreen extends StatefulWidget {
 
 //---------------------- Sides ----------------
 
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.lunch_dining,
+                      color: Colors.orange,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Choose Sides',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-            const Text(
+          /*  const Text(
               'Choose Sides',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ), */
 
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
               title: const Text('Garlic Bread'),
               value: selectedSides.contains('Garlic Bread'),
               onChanged: (selected) {
@@ -927,6 +1087,7 @@ class CustomizeScreen extends StatefulWidget {
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
               title: const Text('French Fries'),
               value: selectedSides.contains('French Fries'),
               onChanged: (selected) {
@@ -943,6 +1104,7 @@ class CustomizeScreen extends StatefulWidget {
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
               title: const Text('Chicken Wings'),
               value: selectedSides.contains('Chicken Wings'),
               onChanged: (selected) {
@@ -959,6 +1121,7 @@ class CustomizeScreen extends StatefulWidget {
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               dense: true,
+              controlAffinity: ListTileControlAffinity.leading, //moved checkbox to the left
               title: const Text('Mozzarella Sticks'),
               value: selectedSides.contains('Mozzarella Sticks'),
               onChanged: (selected) {
