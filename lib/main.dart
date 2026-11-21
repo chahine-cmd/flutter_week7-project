@@ -78,6 +78,64 @@ class _MenuScreenState extends State<MenuScreen> {
 
   /*List<String> currentOrders = [];*/
   
+  Widget buildPizzaCard({
+    required String title,
+    required String description,
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+
+            Icon(
+              icon,
+              size: 30,
+              color: Colors.orange,
+            ),
+
+            const SizedBox(height: 5),
+
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 3),
+
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(120, 40),
+              ),
+              onPressed: onPressed,
+              child: const Text('Customize'),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -100,7 +158,58 @@ class _MenuScreenState extends State<MenuScreen> {
         actions: [
 
           Row(children: [
-            IconButton(
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+
+                IconButton(
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartScreen(
+                          orders: cartProvider.orders,
+                          clearCart: () {
+                            cartProvider.clearCart();
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                if (cartProvider.orders.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.orange,
+                      shape: BoxShape.circle,
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 20,
+                      minHeight: 20,
+                    ),
+                    child: Text(
+                      '${cartProvider.orders.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+              ],
+            ),
+
+            const SizedBox(width: 10),
+
+          /*  IconButton(
               icon: const Icon(
               Icons.shopping_cart,
               color: Colors.white,
@@ -126,6 +235,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
 
             const SizedBox(width: 15),
+            */
           ],
           ),
         ],
@@ -211,7 +321,18 @@ class _MenuScreenState extends State<MenuScreen> {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('🤖 AI Recommendation'),
-                  content: Text(recommendation),
+                  content: Text(
+                    recommendation,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: recommendation.contains('Pizza Bot')
+                        ? Colors.red
+                        : Colors.black,
+                      fontWeight: recommendation.contains('Pizza Bot')
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                    ),
+                    ),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -394,9 +515,9 @@ const SizedBox(height: 20),
             // Pizza button - Margherita
             // ------------------------------------------------------------------
             
-             ElevatedButton(
+           /*  ElevatedButton(
            /* style: pizzaButtonStyle,*/
-              onPressed: () async {
+               onPressed: () async {
                 final order = await Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -415,6 +536,30 @@ const SizedBox(height: 20),
               },
               child: const Text('🍕 Margherita'),
             ),
+          */
+
+            buildPizzaCard(
+              title: 'Margherita',
+              description: 'Classic Cheese Pizza',
+              icon: Icons.local_pizza,
+              onPressed: () async {
+                final order = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CustomizeScreen(
+                      pizzaName: 'Margherita',
+                    ),
+                  ),
+                );
+
+                if (order != null) {
+                  final cartProvider =
+                      Provider.of<CartProvider>(context, listen: false);
+
+                  cartProvider.addOrder(order);
+                }
+              },
+            ),
 
             const SizedBox(height: 20),
 
@@ -422,7 +567,7 @@ const SizedBox(height: 20),
             // Pizza button - Pepperoni
             // ------------------------------------------------------------------
 
-            ElevatedButton(
+          /*  ElevatedButton(
           /*  style: pizzaButtonStyle,*/
               onPressed: () async {
                 final order = await Navigator.push(
@@ -443,6 +588,30 @@ const SizedBox(height: 20),
               },
               child: const Text('🍕 Pepperoni'),
             ),
+            */
+
+            buildPizzaCard(
+              title: 'Pepperoni',
+              description: 'Customer Favorite',
+              icon: Icons.local_pizza,
+              onPressed: () async {
+                final order = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CustomizeScreen(
+                      pizzaName: 'Pepperoni',
+                    ),
+                  ),
+                );
+
+                if (order != null) {
+                  final cartProvider =
+                      Provider.of<CartProvider>(context, listen: false);
+
+                  cartProvider.addOrder(order);
+                }
+              },
+            ),
 
             const SizedBox(height: 20),
 
@@ -450,7 +619,7 @@ const SizedBox(height: 20),
             // Pizza button - Veggie
             // ------------------------------------------------------------------
 
-            ElevatedButton(
+          /*  ElevatedButton(
           /*  style: pizzaButtonStyle,*/
               onPressed: () async {
                 final order = await Navigator.push(
@@ -471,36 +640,32 @@ const SizedBox(height: 20),
               },
               child: const Text('🍕 Veggie'),
             ),
+            */
+              buildPizzaCard(
+                title: 'Veggie',
+                description: 'Fresh Garden Vegetables',
+                icon: Icons.eco,
+                onPressed: () async {
+                  final order = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CustomizeScreen(
+                        pizzaName: 'Veggie',
+                      ),
+                    ),
+                  );
 
+                  if (order != null) {
+                    final cartProvider =
+                        Provider.of<CartProvider>(context, listen: false);
+
+                    cartProvider.addOrder(order);
+                  }
+                },
+              ),
+   
             const SizedBox(height: 20),
 
-/*
-            //--------------------------------------------------------
-            // Navigation to Cart Screen
-            //---------------------------------------------------------
-
-            ElevatedButton(
-            onPressed: () {
-            
-              final cartProvider =
-                Provider.of<CartProvider>(context, listen: false);
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CartScreen(
-                    orders: cartProvider.orders,
-                    clearCart: () {
-                      cartProvider.clearCart();
-                    },
-                  ),
-                ),
-              );
-            },
-              
-                child: const Text('View Cart'),
-              ),
-              */
             ],
           ),
         ),
@@ -589,47 +754,124 @@ class CustomizeScreen extends StatefulWidget {
           );
         }
 
-        
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Customize Pizza'),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        Widget buildSectionHeader( //re-usable custom widget
+          IconData icon,
+          String title,
+        ) {
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 8,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade100,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
               children: [
-
-              RichText(
-                text: TextSpan(
+                Icon(
+                  icon,
+                  color: Colors.orange,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  title,
                   style: const TextStyle(
-                    fontSize: 26,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
-                  children: [
-                    const TextSpan(
-                      text: 'Selected Pizza: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text:widget.pizzaName,
-                      style: const TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  
-                  ],
                 ),
-              ),
+              ],
+            ),
+          );
+        }
 
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Customize Pizza'),
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                    Row(
+                      children: [
+
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                fontSize: 26,
+                                color: Colors.black,
+                              ),
+                              children: [
+                                const TextSpan(
+                                  text: 'Selected Pizza: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: widget.pizzaName,
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.black,
+                          ),
+                          tooltip: 'Cancel Order',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+
+                      ],
+                    ),
+
+/*
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontSize: 26,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            const TextSpan(
+                              text: 'Selected Pizza: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text:widget.pizzaName,
+                              style: const TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          
+                          ],
+                        ),
+                      ),
+                    */
           
 /*            Text(
               widget.pizzaName,
@@ -642,7 +884,12 @@ class CustomizeScreen extends StatefulWidget {
 
             const SizedBox(height: 20),
 
-            Container(
+            buildSectionHeader(
+              Icons.straighten,
+              'Choose Size',
+            ),
+
+          /*  Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -673,7 +920,7 @@ class CustomizeScreen extends StatefulWidget {
             ),
 
 
-            /*
+            
             const Text(
               'Choose Size',
               style: TextStyle(
@@ -724,7 +971,14 @@ class CustomizeScreen extends StatefulWidget {
             const SizedBox(height: 20),
 
 //------------------ Choose Crust ------------------
-               Container(
+               
+               
+               buildSectionHeader(
+                Icons.bakery_dining,
+                'Choose Crust',
+              ),
+               
+             /*  Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -752,7 +1006,7 @@ class CustomizeScreen extends StatefulWidget {
                     ),
                   ],
                 ),
-              ),
+              ), */
 
              /*const Text(
               'Choose Crust',
@@ -842,7 +1096,14 @@ class CustomizeScreen extends StatefulWidget {
             const SizedBox(height: 20),
 //------------------ Choose Toppings -----------
 
-            Container(
+            
+            buildSectionHeader(
+              Icons.restaurant,
+              'Choose Toppings',
+            ),
+            
+            
+         /*   Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -871,7 +1132,7 @@ class CustomizeScreen extends StatefulWidget {
                   ],
                 ),
               ),
-            
+            */
             
             
            /* const Text(
@@ -927,7 +1188,15 @@ class CustomizeScreen extends StatefulWidget {
 
 //----------------------- Drinks ----------------------
 
-              Container(
+              
+              
+              buildSectionHeader(
+                Icons.local_drink,
+                'Choose Drink',
+              ),
+              
+              
+          /*    Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -957,7 +1226,7 @@ class CustomizeScreen extends StatefulWidget {
                 ),
               ),
         
-            
+            */
             
             
            /* const Text(
@@ -1029,7 +1298,14 @@ class CustomizeScreen extends StatefulWidget {
 
 //---------------------- Sides ----------------
 
-              Container(
+              
+              buildSectionHeader(
+                Icons.lunch_dining,
+                'Choose Sides',
+              ),
+              
+              
+           /*   Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -1058,6 +1334,7 @@ class CustomizeScreen extends StatefulWidget {
                   ],
                 ),
               ),
+              */
 
           /*  const Text(
               'Choose Sides',
@@ -1288,6 +1565,73 @@ class CartScreen extends StatelessWidget {
                     itemCount:cartProvider.orders.length,
 
                     itemBuilder: (context, index) {
+//enhanced selected items in cart
+                    return Card(
+                      elevation: 8,
+                      color: Colors.blue.shade50,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        side: BorderSide(
+                          color: Colors.blue.shade300,
+                          width: 2,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            
+                            const SizedBox(height: 10),
+
+                           RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${cartProvider.orders[index].split('\n')[0]}\n',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: cartProvider.orders[index]
+                                      .split('\n')
+                                      .skip(1)
+                                      .join('\n'),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                            const SizedBox(height: 15),
+
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(140, 40),
+                              ),
+                              onPressed: () {
+                                Provider.of<CartProvider>(
+                                  context,
+                                  listen: false,
+                                ).removeOrder(index);
+                              },
+                              icon: const Icon(Icons.cancel),
+                              label: const Text('Remove Item'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                      },
+        ),
+),
+                      /* //roll back
                       return Card(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -1317,6 +1661,7 @@ class CartScreen extends StatelessWidget {
           },
         ),
 ),
+*/
               
               const SizedBox(height: 30),
 
@@ -1415,8 +1760,49 @@ class ConfirmationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           
           children: [
-
             const Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 120,
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'Order Confirmed!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+
+            const SizedBox(height: 50),
+
+            const Text(
+              'Thank you for choosing\nSmart Pizza Shop!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            const Text(
+              'Your order has been sent to the kitchen.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.blue
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+
+          /*  const Icon(
               Icons.check_circle,
               color: Colors.green,
               size: 100,
@@ -1437,6 +1823,7 @@ class ConfirmationScreen extends StatelessWidget {
             ),
             
             const SizedBox(height: 20),
+            */
 
             ElevatedButton(
               onPressed: () {

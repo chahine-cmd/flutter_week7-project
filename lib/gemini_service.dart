@@ -6,8 +6,9 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiService {
 
-  static const String apiKey = 'AQ.Ab8RN6JlY1MooSJHKQk_JwFTiLvlZyB7MV1gsmOHR-zV-E9sGg';
+  static const String apiKey = 'AQ.Ab8RN6LC54Swuh2ppx4Y6NObeg1SuO65BW4UdOQKRGnTdv0okQ';
 
+    
   static Future<String> getPizzaRecommendation() async {
     try {
       final model = GenerativeModel(
@@ -33,24 +34,29 @@ class GeminiService {
       */
 
       final response = await model.generateContent([Content.text(prompt)]).timeout(
-        const Duration(seconds: 10),
+        const Duration(seconds: 20),
       );
 
       return response.text ?? 'No recommendation available.';
-    } catch (e) {
-       print('Gemini Error: $e');
 
-       return 'AI service is temporarily unavailable or taking too long to respond.\n\n'
-        'Smart Pizza Recommendation\n\n'
-        '🍕 Pizza: Large Pepperoni\n\n'
-        '🥖 Crust: Thin Crust\n\n'
-        '🧀 Toppings:\n'
-        '• Extra Cheese\n'
-        '• Mushrooms\n\n'
-        '🥤 Drink:\n'
-        '• Coca-Cola\n\n'
-        '🍟 Side:\n'
-        '• Garlic Bread';
+      /*} catch (e) {
+          print('Gemini Error: $e');
+
+          return 'Gemini Error:\n\n$e'; */
+        
+
+    } catch (e) {
+        print('Gemini Error: $e');
+
+        return '''
+      Our Pizza Bot is taking a quick break!
+
+      Please try again in a few moments.
+
+      In the meantime, why not build your own pizza using our customization options?
+
+
+      ''';
     }
   }
 }
